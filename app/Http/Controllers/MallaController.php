@@ -6,6 +6,7 @@ use App\Models\malla;
 use App\Models\grado;
 use App\Models\unididactica;
 use App\Models\area;
+use App\Models\componentes;
 use Illuminate\Http\Request;
 
 class MallaController extends Controller
@@ -25,17 +26,25 @@ class MallaController extends Controller
      */
     public function create()
     {
-        return view('admin.malla.componente');
+        $unididactica = unididactica::all()->last();
+        $id=$unididactica->id;
+        return view('admin.malla.componente', compact('id'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        
+    {        
         unididactica::create($request->all());
         return redirect()->route('malla.create')->with('success', 'Entidad creada correctamente.');
+        
+        // dd($request->all);
+    }
+
+    public function storeComponents(Request $request)
+    {
+        componentes::create($request->all());     
     }
 
     /**

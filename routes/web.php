@@ -26,4 +26,6 @@ Route::middleware([
     Route::resource('area', AreaController::class);
 });
 
+// Route::post('/guardar', [MallaController::class, 'store']);
+Route::post('/guardar', [MallaController::class,'storeComponents'])->name('malla.storeComponents');
 
