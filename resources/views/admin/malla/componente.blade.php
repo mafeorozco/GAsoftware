@@ -54,9 +54,9 @@
                     </span>
                 </div>
             @endif
-                <div class="flex flex-wrap w-full">
+                <div id="mallaContainer" class="flex flex-wrap w-full">
                     <div class="pt-10 py-10 px-10 w-full">
-                        <form method="POST" action="{{ route('malla.storeComponents') }}">
+                        <form method="POST" action="{{ route('componente.store') }}">
                             @csrf
                             <label for="componentes" class="block">Componentes</label>
                             <input type="hidden" id="unididactica" name="unididactica_id" value="{{ $id }}">
@@ -75,7 +75,9 @@
         </section>
     </div>
 </main>
+<script src="/js/malla.js"></script>
 <script>
+
     var indice=1;
     document.getElementById('agregar-campo').addEventListener('click', function() {
         var div = document.createElement('div');
@@ -88,23 +90,38 @@
         const unididactica_id=document.getElementById('unididactica').value;
         for(var i=0; i<indice;i++){
             $.ajax({
-                url:"/guardar",
+                url:"/guardarComponente",
                 method:"POST",
                 headers:{
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data:{
                     name:document.getElementById(`application-link${i}`).value,
-                    unididactica_id:unididactica_id,
+                    unididactica_id,
                 },
                 success:function(response)
                 {
-                    console.log(response);
+                    console.log(response);                    
                 }
-            })
-                
+            })                
         }
+        $.ajax({
+                url:"/create",
+                method:"GET",
+                // headers:{
+                //     'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                // },
+                // data:{
+                //     redirect:true,
+                // },
+                success:function(response)
+                {
+                    window.location.href = "{{ route('create')}}";  
+                }
+            }) 
     }
+
+    
 </script>
 </body>
 

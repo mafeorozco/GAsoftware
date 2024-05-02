@@ -5,6 +5,9 @@ use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\MallaController;
 use App\Http\Controllers\GradoController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\Malla\UniDidacticaController;
+use App\Http\Controllers\Malla\ComponenteController;
+use App\Http\Controllers\Malla\EstandarController;
 use App\Models\entidad;
 use App\Models\malla;
 
@@ -24,8 +27,11 @@ Route::middleware([
     Route::resource('malla', MallaController::class);
     Route::resource('grado', GradoController::class);
     Route::resource('area', AreaController::class);
+    Route::resource('unidad', UniDidacticaController::class);
+    Route::resource('componente', ComponenteController::class);
+    Route::resource('estandar', EstandarController::class);
 });
-
-// Route::post('/guardar', [MallaController::class, 'store']);
-Route::post('/guardar', [MallaController::class,'storeComponents'])->name('malla.storeComponents');
+Route::post('/guardarComponente', [ComponenteController::class,'store'])->name('componente.stores');
+Route::post('/guardarEstandar', [EstandarController::class,'store'])->name('estandar.stores');
+Route::get('/create', [ComponenteController::class,'create'])->name('create');
 

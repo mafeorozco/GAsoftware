@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Malla;
 
+use App\Http\Controllers\Controller;
 use App\Models\malla;
 use App\Models\grado;
 use App\Models\unididactica;
@@ -9,16 +10,14 @@ use App\Models\area;
 use App\Models\componentes;
 use Illuminate\Http\Request;
 
-class MallaController extends Controller
+class ComponenteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $grado = grado::all();
-        $area = area::all();
-        return view('admin.malla.unididactica', compact('grado', 'area'));
+
     }
 
     /**
@@ -28,36 +27,24 @@ class MallaController extends Controller
     {
         $unididactica = unididactica::all()->last();
         $id=$unididactica->id;
-        return view('admin.malla.componente', compact('id'));
-    }
-
-    public function createEstandar()
-    {        
-        $componentes=componentes::where('unididactica_id',9)->get();
-        return view('admin.malla.estandar', compact('componentes'));
+        $componentes=componentes::where('unididactica_id',$id)->get();
+        $exitoso=true;
+        $mensaje="Componentes creados correctamente";
+        return view('admin.malla.estandar', compact('componentes','exitoso','mensaje'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {        
-        unididactica::create($request->all());
-        return redirect()->route('malla.create')->with('success', 'Entidad creada correctamente.');
-        
-        // dd($request->all);
-    }
 
-    public function storeComponents(Request $request)
+    public function store(Request $request)
     {
-        $component= new componentes();
-        $component->redirect=$request->redirect;
-        if($component->redirect==true){
-            return redirect()->route('malla.createEstandar')->with('success', 'Componentes creados correctamente.');              
+        if($request->redirect==true){
+            return redirect()->route('componente.create')->with('success', 'Componentes creados correctamente.');              
         }else{
             componentes::create($request->all());
-        }       
-        // dd($name,$unididacticaId);
+        }     
+        
     }
 
     /**
