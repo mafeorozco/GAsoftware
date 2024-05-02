@@ -55,7 +55,7 @@
             @endif
                 <div class="flex flex-wrap w-full">
                     <div class="pt-10 py-10 px-10 w-full">
-                        <form action="{{ route('malla.store') }}" method="post">
+                        <form action="{{ route('unidad.store') }}" method="post">
                             @csrf
                             <div class="grid grid-cols-2 gap-2">
                                     <div>

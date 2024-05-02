@@ -70,11 +70,11 @@
                     @endif
                     <div class="flex flex-wrap w-full">
                         <div class="pt-10 py-10 px-10 w-full">
-                            <form method="POST" action="{{ route('componente.store') }}">
+                            <form method="POST" action="{{ route('competencia.store') }}">
                                 @csrf
                                 <p>Selecciona un estandar para agregarle las competencias</p>
                                 <div class="mb-5">
-                                <select id="componente" onchange="mostrarInput()"
+                                <select id="estandar" onchange="mostrarInput()"
                                     class="block w-full px-4 py-2 border rounded-md">
                                     @foreach ($estandares as $estandar)
                                     <option value="{{ $estandar->id}}">{{ $estandar->name}}</option>
@@ -90,7 +90,7 @@
                                 </div>
                                 <button type="button" class="hidden" id="agregar-campo">Agregar Campo</button>
                                 <button class="hidden" type="button" onclick={enviarFormu()} id="enviar-formu">Guardar</button>
-                                <a href="{{ route ('estandar.create') }}" class="block py-1 md:py-3 pl-1 align-middle text-current no-underline hover:text-current border-b-2 border-gray-100 hover:border-sky-400">Siguiente</a>
+                                <a href="{{ route ('competencia.create') }}" class="block py-1 md:py-3 pl-1 align-middle text-current no-underline hover:text-current border-b-2 border-gray-100 hover:border-sky-400">Siguiente</a>
                             </form>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
         </div>
     </main>
     <script>
-    var div = document.createElement('div');
+
     function mostrarInput(){
         input=document.getElementById('application-link0');
         button=document.getElementById('agregar-campo');
@@ -107,14 +107,14 @@
         input.classList.remove('hidden');
         button.classList.remove('hidden');
         buttonForm.classList.remove('hidden');
-        div.innerHTML='';
+        // div.innerHTML='';
         input.value='';
     }
 
     var indice=1;
         
     document.getElementById('agregar-campo').addEventListener('click', function() {
-        
+        var div = document.createElement('div');
         div.innerHTML = `<input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link${indice}" name="name" type="text" placeholder="Ingresa una competencia">`;
         document.getElementById('campos-dinamicos').appendChild(div);
         indice++;
@@ -122,17 +122,17 @@
 
     function enviarFormu(){
         event.preventDefault();
-        const componente_id=document.getElementById('componente').value;
+        const estandar_id=document.getElementById('estandar').value;
         for(var i=0; i<indice;i++){
             $.ajax({
-                url:"/guardarEstandar",
+                url:"/guardarCompetencia",
                 method:"POST",
                 headers:{
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data:{
                     name:document.getElementById(`application-link${i}`).value,
-                    componente_id,
+                    estandar_id,
                 },
                 success:function(response)
                 {

@@ -8,6 +8,9 @@ use App\Http\Controllers\AreaController;
 use App\Http\Controllers\Malla\UniDidacticaController;
 use App\Http\Controllers\Malla\ComponenteController;
 use App\Http\Controllers\Malla\EstandarController;
+use App\Http\Controllers\Malla\CompetenciaController;
+use App\Http\Controllers\Malla\DesempeñoController;
+use App\Http\Controllers\Malla\IndicadorDesempeñoController;
 use App\Models\entidad;
 use App\Models\malla;
 
@@ -30,8 +33,14 @@ Route::middleware([
     Route::resource('unidad', UniDidacticaController::class);
     Route::resource('componente', ComponenteController::class);
     Route::resource('estandar', EstandarController::class);
+    Route::resource('competencia', CompetenciaController::class);
+    Route::resource('desempeño', DesempeñoController::class);
+    Route::resource('indicadorDesempeño', IndicadorDesempeñoController::class);
 });
 Route::post('/guardarComponente', [ComponenteController::class,'store'])->name('componente.stores');
 Route::post('/guardarEstandar', [EstandarController::class,'store'])->name('estandar.stores');
+Route::post('/guardarCompetencia', [CompetenciaController::class,'store'])->name('competencia.stores');
+Route::post('/guardarDesempeño', [DesempeñoController::class,'store'])->name('desempeño.stores');
+Route::post('/guardarIndicadorDesempeño', [IndicadorDesempeñoController::class,'store'])->name('indicadorDesempeño.stores');
 Route::get('/create', [ComponenteController::class,'create'])->name('create');
 

@@ -36,7 +36,7 @@
                     <div class="bg-gray-100 pt-3">
                         <div
                             class="rounded-tl-3xl bg-gradient-to-r from-gray-100 to-sky-400 p-4 shadow text-2xl text-current">
-                            <h1 class="font-bold pl-2">Estandares</h1>
+                            <h1 class="font-bold pl-2">Desempeño</h1>
                         </div>
                     </div>
                     @if ($exitoso==true)
@@ -70,27 +70,27 @@
                     @endif
                     <div class="flex flex-wrap w-full">
                         <div class="pt-10 py-10 px-10 w-full">
-                            <form method="POST" action="{{ route('estandar.store') }}">
+                            <form method="POST" action="{{ route('desempeño.store') }}">
                                 @csrf
-                                <p>Selecciona un componente para agregarle los estandares</p>
+                                <p>Selecciona una competencia para agregarle al desempeño</p>
                                 <div class="mb-5">
-                                <select id="componente" onchange="mostrarInput()"
+                                <select id="competencia" onchange="mostrarInput()"
                                     class="block w-full px-4 py-2 border rounded-md">
-                                    @foreach ($componentes as $componente)
-                                    <option value="{{ $componente->id }}">{{ $componente->name}}</option>
+                                    @foreach ($competencias as $competencia)
+                                    <option value="{{ $competencia->id }}">{{ $competencia->name}}</option>
                                     @endforeach
                                 </select>
                                 </div>
                                 <input
                                     class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 hidden"
-                                    id="application-link0" name="name" type="text" placeholder="Ingresa un estandar">
+                                    id="application-link0" name="name" type="text" placeholder="Ingresa un desempeño">
                                 <!-- Campos dinámicos -->
                                 <div id="campos-dinamicos">
                                     <!-- Campos dinámicos se agregarán aquí -->
                                 </div>
                                 <button type="button" class="hidden" id="agregar-campo">Agregar Campo</button>
                                 <button class="hidden" type="button" onclick={enviarFormu()} id="enviar-formu">Guardar</button>
-                                <a href="{{ route ('estandar.create') }}" class="block py-1 md:py-3 pl-1 align-middle text-current no-underline hover:text-current border-b-2 border-gray-100 hover:border-sky-400">Siguiente</a>
+                                <a href="{{ route ('desempeño.create') }}" class="block py-1 md:py-3 pl-1 align-middle text-current no-underline hover:text-current border-b-2 border-gray-100 hover:border-sky-400">Siguiente</a>
                             </form>
                         </div>
                     </div>
@@ -99,7 +99,7 @@
         </div>
     </main>
     <script>
-   
+
     function mostrarInput(){
         input=document.getElementById('application-link0');
         button=document.getElementById('agregar-campo');
@@ -107,7 +107,6 @@
         input.classList.remove('hidden');
         button.classList.remove('hidden');
         buttonForm.classList.remove('hidden');
-        // var div = document.createElement('div');
         // div.innerHTML='';
         input.value='';
     }
@@ -116,24 +115,24 @@
         
     document.getElementById('agregar-campo').addEventListener('click', function() {
         var div = document.createElement('div');
-        div.innerHTML = `<input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link${indice}" name="name" type="text" placeholder="Ingresa un estandar">`;
+        div.innerHTML = `<input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link${indice}" name="name" type="text" placeholder="Ingresa un desempeño">`;
         document.getElementById('campos-dinamicos').appendChild(div);
         indice++;
     });
 
     function enviarFormu(){
         event.preventDefault();
-        const componente_id=document.getElementById('componente').value;
+        const competencia_id=document.getElementById('competencia').value;
         for(var i=0; i<indice;i++){
             $.ajax({
-                url:"/guardarEstandar",
+                url:"/guardarDesempeño",
                 method:"POST",
                 headers:{
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 },
                 data:{
                     name:document.getElementById(`application-link${i}`).value,
-                    componente_id,
+                    competencia_id,
                 },
                 success:function(response)
                 {

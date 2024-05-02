@@ -60,7 +60,7 @@
                             @csrf
                             <label for="componentes" class="block">Componentes</label>
                             <input type="hidden" id="unididactica" name="unididactica_id" value="{{ $id }}">
-                            <input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link0" name="name" type="text" placeholder="Unidad didactica">
+                            <input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link0" name="name" type="text" placeholder="Ingresa componente">
                             <!-- Campos dinámicos -->
                             <div id="campos-dinamicos">
                                 <!-- Campos dinámicos se agregarán aquí -->
@@ -81,7 +81,7 @@
     var indice=1;
     document.getElementById('agregar-campo').addEventListener('click', function() {
         var div = document.createElement('div');
-        div.innerHTML = `<input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link${indice}" name="name" type="text" placeholder="Unidad didactica">`;
+        div.innerHTML = `<input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link${indice}" name="name" type="text" placeholder="Ingresa un componente">`;
         document.getElementById('campos-dinamicos').appendChild(div);
         indice++;
     });
@@ -106,19 +106,11 @@
             })                
         }
         $.ajax({
-                url:"/create",
-                method:"GET",
-                // headers:{
-                //     'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                // },
-                // data:{
-                //     redirect:true,
-                // },
-                success:function(response)
-                {
-                    window.location.href = "{{ route('create')}}";  
-                }
-            }) 
+            success:function(response)
+            {
+                window.location.href = "{{ route('create')}}";  
+            }
+        }) 
     }
 
     
