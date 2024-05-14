@@ -64,7 +64,7 @@
                                         <div class="rounded-full p-5 bg-sky-400"><i class="fas fa-folder-open fa-2x fa-inverse"></i></div>
                                     </div>
                                     <div class="flex-1 text-right md:text-center">
-                                        <h2 class="font-bold uppercase text-gray-600">Crear malla curricular</h2>
+                                        <h2 class="font-bold uppercase text-gray-600">Malla curricular</h2>
                                     </div>
                                 </div>
                             </div>

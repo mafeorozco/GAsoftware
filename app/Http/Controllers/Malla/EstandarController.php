@@ -44,6 +44,9 @@ class EstandarController extends Controller
     public function store(Request $request)
     {
         estandar::create($request->all());
+        $data=[];
+        $data['estandar']=$request->name;
+        return response()->json($data);
     }
 
     /**

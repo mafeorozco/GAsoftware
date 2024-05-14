@@ -7,6 +7,10 @@ use App\Models\grado;
 use App\Models\unididactica;
 use App\Models\area;
 use App\Models\componentes;
+use App\Models\estandar;
+use App\Models\competencia;
+use App\Models\desempeño;
+use App\Models\indicadorDesempeño;
 use Illuminate\Http\Request;
 
 class MallaController extends Controller
@@ -16,9 +20,22 @@ class MallaController extends Controller
      */
     public function index()
     {
-        $grado = grado::all();
-        $area = area::all();
-        return view('admin.malla.unididactica', compact('grado', 'area'));
+        $unidades=[];
+        $unididacticas = unididactica::all();
+        // $componentes=[];
+        foreach ($unididacticas as $unididactica) {
+            // echo $unididactica->name . '<br>';
+            $grados=grado::where('id',$unididactica->grado_id)->get();
+            $area=area::where('id',$unididactica->area_id)->get();
+                    
+            $data=(object)[
+                'unididacticas' => $unididacticas,
+                'grados' => $grados,
+                'areas' => $area,
+            ];
+            array_push($unidades,$data);
+        }
+        return view('admin.malla.malla', compact('unidades'));
     }
 
     /**
@@ -26,15 +43,7 @@ class MallaController extends Controller
      */
     public function create()
     {
-        $unididactica = unididactica::all()->last();
-        $id=$unididactica->id;
-        return view('admin.malla.componente', compact('id'));
-    }
-
-    public function createEstandar()
-    {        
-        $componentes=componentes::where('unididactica_id',9)->get();
-        return view('admin.malla.estandar', compact('componentes'));
+        
     }
 
     /**
@@ -42,30 +51,86 @@ class MallaController extends Controller
      */
     public function store(Request $request)
     {        
-        unididactica::create($request->all());
-        return redirect()->route('malla.create')->with('success', 'Entidad creada correctamente.');
-        
-        // dd($request->all);
-    }
-
-    public function storeComponents(Request $request)
-    {
-        $component= new componentes();
-        $component->redirect=$request->redirect;
-        if($component->redirect==true){
-            return redirect()->route('malla.createEstandar')->with('success', 'Componentes creados correctamente.');              
-        }else{
-            componentes::create($request->all());
-        }       
-        // dd($name,$unididacticaId);
+       
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(malla $malla)
+    public function show($malla)
     {
-        //
+
+        
+        $unididacticas = unididactica::where('id',$malla)->get();
+        $grados=grado::where('id',$unididacticas[0]->grado_id)->get();
+        $areas=area::where('id',$unididacticas[0]->area_id)->get();
+        $unidad_data=[
+            'name'=>$unididacticas[0]->name,
+            'componentes'=>[],
+        ];
+
+        $componentes=componentes::where('unididactica_id',$unididacticas[0]->id)->get();
+            foreach ($componentes as $componente){
+                $componente_data=[
+                    'id'=>$componente->id,
+                    'name'=>$componente->name,
+                    'estandares'=>[],
+                ];
+                $estandares=estandar::where('componente_id',$componente->id)->get();
+                foreach ($estandares as $estandar){
+                    $estandares_data=[
+                        'id'=>$estandar->id,
+                        'name'=>$estandar->name,
+                        'competencias'=>[],
+                    ];
+                    $competencias=competencia::where('estandar_id',$estandar->id)->get();
+                    foreach($competencias as $competencia){
+                        $competencias_data=[
+                            'id'=>$competencia->id,
+                            'name'=>$competencia->name,
+                            'desempeños'=>[],
+                        ];
+                        $desempeños=desempeño::where('competencia_id',$competencia->id)->get();
+                        foreach($desempeños as $desempeño){
+                            $desempeños_data=[
+                                'id'=>$desempeño->id,
+                                'name'=>$desempeño->name,
+                                'indicadores'=>[],
+                            ];
+                            $indicadores=indicadorDesempeño::where('desempeno_id',$desempeño->id)->get();
+                            foreach($indicadores as $indicador){
+                                $indicadores_data=[
+                                    'id'=>$indicador->id,
+                                    'name'=>$indicador->name,
+                                ];
+                                array_push($desempeños_data['indicadores'],$indicadores_data);
+                            }
+                            array_push($competencias_data['desempeños'],$desempeños_data);
+                        }
+                        array_push($estandares_data['competencias'],$competencias_data);
+                    }
+                    array_push($componente_data['estandares'],$estandares_data);
+                }
+                array_push($unidad_data['componentes'],$componente_data);
+            }
+
+            // foreach($unidad_data['componentes'] as $componente){
+            //     echo $componente['name']."<br>";
+            //     foreach($componente['estandares'] as $estandar){
+            //         echo $estandar['name']."<br>";
+            //         foreach($estandar['competencias'] as $competencia){
+            //             echo $competencia['name']."<br>";
+            //             foreach($competencia['desempeños'] as $desempeño){
+            //                 echo $desempeño['name']."<br>";
+            //                 foreach($desempeño['indicadores'] as $indicador){
+            //                     echo $indicador['name']."<br>";
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+                
+        return view('admin.malla.verMalla', compact('unidad_data','grados','areas'));
     }
 
     /**

@@ -56,6 +56,9 @@ class DesempeñoController extends Controller
     public function store(Request $request)
     {
         desempeño::create($request->all());
+        $data=[];
+        $data['desempeño']=$request->name;
+        return response()->json($data);
     }
 
     /**

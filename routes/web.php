@@ -42,5 +42,4 @@ Route::post('/guardarEstandar', [EstandarController::class,'store'])->name('esta
 Route::post('/guardarCompetencia', [CompetenciaController::class,'store'])->name('competencia.stores');
 Route::post('/guardarDesempeño', [DesempeñoController::class,'store'])->name('desempeño.stores');
 Route::post('/guardarIndicadorDesempeño', [IndicadorDesempeñoController::class,'store'])->name('indicadorDesempeño.stores');
-Route::get('/create', [ComponenteController::class,'create'])->name('create');
 

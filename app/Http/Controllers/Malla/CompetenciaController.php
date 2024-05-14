@@ -50,6 +50,9 @@ class CompetenciaController extends Controller
     public function store(Request $request)
     {
         competencia::create($request->all());
+        $data=[];
+        $data['competencia']=$request->name;
+        return response()->json($data);
     }
 
     /**

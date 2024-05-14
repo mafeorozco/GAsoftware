@@ -76,21 +76,46 @@
                                 <div class="mb-5">
                                 <select id="estandar" onchange="mostrarInput()"
                                     class="block w-full px-4 py-2 border rounded-md">
+                                    <option>Selecciona</option>
                                     @foreach ($estandares as $estandar)
                                     <option value="{{ $estandar->id}}">{{ $estandar->name}}</option>
                                     @endforeach
                                 </select>
                                 </div>
-                                <input
-                                    class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 hidden"
-                                    id="application-link0" name="name" type="text" placeholder="Ingresa una competencia">
-                                <!-- Campos dinámicos -->
-                                <div id="campos-dinamicos">
-                                    <!-- Campos dinámicos se agregarán aquí -->
+                                <div class="flex">
+                                    <div class="flex-auto w-32">
+                                        <textarea
+                                        class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3 hidden"
+                                        id="application-link0" name="name" type="text" placeholder="Ingresa una competencia"></textarea>
+                                        <!-- Campos dinámicos -->
+                                        <div id="campos-dinamicos">
+                                            <!-- Campos dinámicos se agregarán aquí -->
+                                        </div>
+                                        <button type="button" class="hidden inline-flex items-center bg-sky-400 border-0 py-1 px-3 focus:outline-none hover:bg-gray-500 text-white rounded text-base mt-4  md:mt-0"id="agregar-campo">Agregar Campo</button>
+                                        <button class="hidden inline-flex items-center bg-sky-400 border-0 py-1 px-3 focus:outline-none hover:bg-gray-500 text-white rounded text-base mt-4  md:mt-0" type="button" onclick={enviarFormu()} id="enviar-formu">Guardar</button>
+                                    </div>
+                                    <div class="flex-auto w-64 ml-5 mb-4">
+                                        <table id="table" class="hidden border-collapse table-auto w-full text-sm">
+                                            <thead class="bg-slate-200">
+                                                <tr>
+                                                    <th
+                                                        class="border-b dark:border-slate-600 font-medium py-3 pl-2 pb-3 text-left">
+                                                        Competencia</th>
+                                                    <th
+                                                        class="border-b dark:border-slate-600 font-medium py-3 pl-2 pb-3 text-left">
+                                                        Estandar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="" id="body-table"></tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                                <button type="button" class="hidden" id="agregar-campo">Agregar Campo</button>
-                                <button class="hidden" type="button" onclick={enviarFormu()} id="enviar-formu">Guardar</button>
-                                <a href="{{ route ('competencia.create') }}" class="block py-1 md:py-3 pl-1 align-middle text-current no-underline hover:text-current border-b-2 border-gray-100 hover:border-sky-400">Siguiente</a>
+                                <div class="flex justify-end">
+                                    <a href="{{ route ('competencia.create') }}"
+                                        class="block no-underline inline-flex items-center bg-sky-400 border-0 py-1 px-3 focus:outline-none hover:bg-gray-500 text-white rounded text-base mt-4 md:mt-0"><i
+                                            class="fa fa-arrow-right"></i>Siguiente
+                                    </a>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -99,23 +124,29 @@
         </div>
     </main>
     <script>
+    var indice=1; 
 
     function mostrarInput(){
-        input=document.getElementById('application-link0');
-        button=document.getElementById('agregar-campo');
-        buttonForm=document.getElementById('enviar-formu');
+        const input = document.getElementById('application-link0');
+        const button = document.getElementById('agregar-campo');
+        const buttonForm = document.getElementById('enviar-formu');
+        const table = document.getElementById('table');
         input.classList.remove('hidden');
         button.classList.remove('hidden');
         buttonForm.classList.remove('hidden');
-        // div.innerHTML='';
-        input.value='';
+        table.classList.remove('hidden');
+        input.value = '';
+        containerDiv = document.getElementById('campos-dinamicos');
+        while (containerDiv.firstChild) {
+            containerDiv.removeChild(containerDiv.firstChild);
+        }
+        indice = 1;
     }
-
-    var indice=1;
+    
         
     document.getElementById('agregar-campo').addEventListener('click', function() {
         var div = document.createElement('div');
-        div.innerHTML = `<input class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link${indice}" name="name" type="text" placeholder="Ingresa una competencia">`;
+        div.innerHTML = `<textarea class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3" id="application-link${indice}" name="name" type="text" placeholder="Ingresa una competencia"></textarea>`;
         document.getElementById('campos-dinamicos').appendChild(div);
         indice++;
     });
@@ -136,7 +167,13 @@
                 },
                 success:function(response)
                 {
-                    console.log(response);                    
+                    const estandar_id=document.getElementById('estandar');
+                    var tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td class='border-b border-slate-100 dark:border-slate-700 p-4'>${response.competencia}</td>
+                        <td class='border-b border-slate-100 dark:border-slate-700 p-4'>${estandar_id.options[estandar_id.selectedIndex].text}</td>
+                    `
+                    document.getElementById('body-table').appendChild(tr);              
                 }
             })                
         }

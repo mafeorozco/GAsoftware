@@ -4,11 +4,6 @@ namespace App\Http\Controllers\Malla;
 
 use App\Http\Controllers\Controller;
 use App\Models\malla;
-use App\Models\unididactica;
-use App\Models\componentes;
-use App\Models\competencia;
-use App\Models\estandar;
-use App\Models\desempeño;
 use App\Models\indicadorDesempeño;
 use Illuminate\Http\Request;
 
@@ -36,6 +31,9 @@ class IndicadorDesempeñoController extends Controller
     public function store(Request $request)
     {
         indicadorDesempeño::create($request->all());
+        $data=[];
+        $data['desempeño']=$request->name;
+        return response()->json($data);
     }
 
     /**
