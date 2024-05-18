@@ -5,12 +5,14 @@ use App\Http\Controllers\EntidadController;
 use App\Http\Controllers\MallaController;
 use App\Http\Controllers\GradoController;
 use App\Http\Controllers\AreaController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\Malla\UniDidacticaController;
 use App\Http\Controllers\Malla\ComponenteController;
 use App\Http\Controllers\Malla\EstandarController;
 use App\Http\Controllers\Malla\CompetenciaController;
 use App\Http\Controllers\Malla\DesempeñoController;
 use App\Http\Controllers\Malla\IndicadorDesempeñoController;
+use Illuminate\Support\Facades\Auth;
 use App\Models\entidad;
 use App\Models\malla;
 
@@ -24,10 +26,25 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        $user = Auth::user();
+        $role=$user->roles;
+        if($role[0]->name=='Admin'){
+            return view('admin.dashboard');
+        }elseif($role[0]->name=='Coordinador'){
+            return view('coordinador.home');
+        }elseif($role[0]->name=='Profesor'){
+            return view('profesor.home');
+        }else{
+            dd("Usuario invalido");
+        }
+
+        
+        
+        return dd();
     })->name('dashboard');
     Route::resource('entidad', EntidadController::class);
     Route::resource('malla', MallaController::class);
+    Route::resource('usuarios', UserController::class);
     Route::resource('grado', GradoController::class);
     Route::resource('area', AreaController::class);
     Route::resource('unidad', UniDidacticaController::class);
