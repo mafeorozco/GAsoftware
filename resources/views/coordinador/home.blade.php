@@ -23,10 +23,39 @@
  @include('components.nav-admin-head')
 </header>
 <main>
-    <div class="mt-20">
-        <h1>Hola coordinador</h1>
+    <div class="flex flex-col md:flex-row">
+        @include('components.nav-coordinador')
+        <section class="w-full">
+            <div id="main" class="main-content mt-12 md:mt-2 pb-24 h-screen md:pb-5">
+
+                <div class="bg-gray-100 pt-3">
+                    <div class="rounded-tl-3xl bg-gradient-to-r from-gray-100 to-sky-400 p-4 shadow text-2xl text-current">
+                        <h1 class="font-bold pl-2">Panel de control</h1>
+                    </div>
+                </div>
+                <div class="flex flex-wrap w-full">
+                    <div class="w-full md:w-1/2 xl:w-1/3 p-5">
+                        <!--Metric Card-->
+                        <a href="{{ route ('profesor.index') }}">
+                            <div class="bg-gradient-to-b from-blue-200 to-blue-100 border-b-4 border-sky-400 rounded-lg shadow-xl p-5">
+                                <div class="flex flex-row items-center">
+                                    <div class="flex-shrink pr-4">
+                                        <div class="rounded-full p-5 bg-sky-400">
+                                            <i class="fas fa-users fa-2x fa-inverse"></i>
+                                        </div>
+                                    </div>
+                                    <div class="flex-1 text-right md:text-center">
+                                        <h2 class="font-bold uppercase text-gray-600">Profesores</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <!--/Metric Card-->
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
-    
 </main>
 </body>
 </html>

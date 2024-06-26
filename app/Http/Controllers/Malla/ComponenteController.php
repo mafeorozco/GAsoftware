@@ -50,9 +50,10 @@ class ComponenteController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(malla $malla)
+    public function show(Request $request)
     {
-        //
+        $componentes=componentes::where('unididactica_id',$request->elemento)->get();
+        return $componentes;
     }
 
     /**

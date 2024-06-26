@@ -39,9 +39,10 @@ class IndicadorDesempeñoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(malla $malla)
+    public function show(Request $request)
     {
-        //
+        $indicadoresDesempeño=indicadorDesempeño::where('desempeno_id',$request->elemento)->get();
+        return $indicadoresDesempeño;
     }
 
     /**

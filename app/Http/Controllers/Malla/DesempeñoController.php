@@ -64,9 +64,10 @@ class DesempeñoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(malla $malla)
+    public function show(Request $request)
     {
-        //
+        $desempeños=desempeño::where('competencia_id',$request->elemento)->get();
+        return $desempeños;
     }
 
     /**

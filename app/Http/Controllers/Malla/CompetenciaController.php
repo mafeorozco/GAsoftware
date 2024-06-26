@@ -58,9 +58,10 @@ class CompetenciaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(malla $malla)
+    public function show(Request $request)
     {
-        //
+        $competencias=competencia::where('estandar_id',$request->elemento)->get();
+        return $competencias;
     }
 
     /**

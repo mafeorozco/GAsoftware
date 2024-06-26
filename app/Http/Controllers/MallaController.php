@@ -24,14 +24,15 @@ class MallaController extends Controller
         $unididacticas = unididactica::all();
         // $componentes=[];
         foreach ($unididacticas as $unididactica) {
-            // echo $unididactica->name . '<br>';
+            // dd($unididactica->name);
             $grados=grado::where('id',$unididactica->grado_id)->get();
             $area=area::where('id',$unididactica->area_id)->get();
                     
             $data=(object)[
-                'unididacticas' => $unididacticas,
-                'grados' => $grados,
-                'areas' => $area,
+                'id'=>$unididactica->id,
+                'unididacticas' => $unididactica->name,
+                'grados' => $grados[0]->name,
+                'area' => $area[0]->name,
             ];
             array_push($unidades,$data);
         }
@@ -59,8 +60,6 @@ class MallaController extends Controller
      */
     public function show($malla)
     {
-
-        
         $unididacticas = unididactica::where('id',$malla)->get();
         $grados=grado::where('id',$unididacticas[0]->grado_id)->get();
         $areas=area::where('id',$unididacticas[0]->area_id)->get();
@@ -113,22 +112,6 @@ class MallaController extends Controller
                 }
                 array_push($unidad_data['componentes'],$componente_data);
             }
-
-            // foreach($unidad_data['componentes'] as $componente){
-            //     echo $componente['name']."<br>";
-            //     foreach($componente['estandares'] as $estandar){
-            //         echo $estandar['name']."<br>";
-            //         foreach($estandar['competencias'] as $competencia){
-            //             echo $competencia['name']."<br>";
-            //             foreach($competencia['desempeños'] as $desempeño){
-            //                 echo $desempeño['name']."<br>";
-            //                 foreach($desempeño['indicadores'] as $indicador){
-            //                     echo $indicador['name']."<br>";
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
                 
         return view('admin.malla.verMalla', compact('unidad_data','grados','areas'));
     }

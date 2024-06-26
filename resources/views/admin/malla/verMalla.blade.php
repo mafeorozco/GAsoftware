@@ -39,60 +39,67 @@
                     </div>
                     <div>
                         <div>
+                            <div class="mt-2">
+                                <a href="{{ route('malla.index') }}">
+                                    <button class="w-full inline-flex justify-center rounded-md border border-transparent shadow-md px-4 py-2 bg-sky-400 font-medium text-gray-50 hover:bg-gray-700 hover:text-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm mt-2">Volver</button>
+                                </a>
+                            </div>
                             <p class="text-lg font-bold text-center">ELEMENTOS GENERALES</p>
                             <div class="flex m-2.5">
                                 <div class="flex mr-4">
-                                    <p class="font-bold">GRADO: </p>
+                                    <p class="font-bold mr-1">GRADO: </p>
                                     @foreach($grados as $grado)
                                     <p>{{$grado->name}}</p> 
                                     @endforeach
                                 </div>
                                 <div class="flex">  
-                                    <p class="font-bold">AREA: </p>                        
+                                    <p class="font-bold mr-1">AREA: </p>                        
                                     @foreach($areas as $area)
                                     <p>{{$area->name}}</p>
                                     @endforeach
                                 </div> 
                             </div>
                             <div>
-                                <div class="bg-white m-2.5 p-1.5 rounded-2xl">
-                                    <p class="font-bold">Unidad didactica</p>
+                                <div class=" m-2.5">
+                                    <p class="font-bold">UNIDAD DIDACTICA</p>
                                     <p>{{$unidad_data['name']}}</p>
                                 </div>
-                                <div class="">
+                                <div class="bg-white m-2.5">
+                                    <div class="flex border-b-2 border-gray-500 p-1 bg-neutral-300 ">
+                                        <p class="w-1/6 font-bold p-2">Componente</p>
+                                        <p class="w-1/6 font-bold p-2">Estandar</p>
+                                        <p class="w-1/6 font-bold p-2">Competencia</p>
+                                        <p class="w-1/6 font-bold p-2">Desempeño</p>
+                                        <p class="w-1/5 font-bold px-3 py-2">Indicador de desempeño</p>
+                                    </div>
                                     @foreach($unidad_data['componentes'] as $componente)
-                                    <div class="flex bg-white m-2.5 pl-2 pr-2 rounded-2xl">
-                                        <div class="pt-1.5">
-                                        <p class="font-bold">Componente</p>
+                                    <div class=" flex border-b-2 border-gray-500 ">
+                                        <div class="p-1 w-1/5 border-r-2 border-gray-500">
                                         {{$componente['name']}}
                                         </div>
-                                        <div>
+                                        <div class="w-full ">
                                             @foreach($componente['estandares'] as $estandar)
-                                            <div class="flex bg-slate-100 ml-1.5 mb-1.5 pl-2 pr-2 rounded-2xl ">
-                                                <div class="pt-1.5">
-                                                    <p class="font-bold">Estandar</p>
+                                            <div class="flex">
+                                                <div class="p-1 w-3/12 border-r-2 border-b-2 border-gray-500">
                                                     {{$estandar['name']}}
                                                 </div>
-                                                <div>
+                                                <div class="w-full">
                                                     @foreach($estandar['competencias'] as $competencia)
-                                                    <div class="flex bg-slate-200 ml-1.5 mb-1.5 pl-2 pr-2 rounded-2xl  ">
-                                                        <div class="pt-1.5">
-                                                            <p class="font-bold">Competencia</p>
+                                                    <div class="flex">
+                                                        <div class="p-1 w-2/6 border-r-2 border-b-2 border-gray-500">
                                                             {{$competencia['name']}}
                                                         </div>
-                                                        <div>
+                                                        <div class="w-full">
                                                             @foreach($competencia['desempeños'] as $desempeño)
-                                                            <div class="flex bg-slate-300 ml-1.5 mb-1.5 pl-2 pr-2 rounded-2xl ">
-                                                                <div class="pt-1.5">
-                                                                    <p class="font-bold">Desempeño</p>
+                                                            <div class=" flex">
+                                                                <div class="p-1 w-3/6 border-r-2 border-b-2 border-gray-500 ">
                                                                     {{$desempeño['name']}}
                                                                 </div>
-                                                                <div>
+                                                                <div class="w-full relative ">
                                                                     @foreach($desempeño['indicadores'] as $indicador)
-                                                                    <div class="flex bg-slate-400 ml-1.5 mb-1.5 pl-2 pr-2 rounded-2xl">
-                                                                        <div class="pt-1.5">
-                                                                            <p class="font-bold">Indicador de desempeño</p>
-                                                                            {{$indicador['name']}}
+                                                                    <div class="absolute last:bottom-0">
+                                                                        <div class="p-1 border-b-2 border-gray-500  ">
+                                                                            <p>{{$indicador['name']}}</p>
                                                                         </div>
                                                                     </div>
                                                                     @endforeach

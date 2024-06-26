@@ -32,8 +32,7 @@ class RoleAndPermissionsSeeder extends Seeder
         ]);
 
         $roleAdmin->givePermissionTo('crear malla');
-        $roleAdmin->givePermissionTo('ver malla');
-        
+        $roleAdmin->givePermissionTo('ver malla');        
         $roleProfesor->givePermissionTo('ver malla');
     }
 }

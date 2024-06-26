@@ -26,6 +26,7 @@ class UserController extends Controller
                 'id'=>$usuario->id,
                 'name'=>$usuario->name,
                 'role'=>$rol->name,
+                'email'=>$usuario->email
                ];
                array_push($dataUsuarios,$dataUsuario);
             }
@@ -53,7 +54,6 @@ class UserController extends Controller
     //     // Añadir otras validaciones según sea necesario, como rol_id y entidad_id
     // ]);
 
-    // Crear un nuevo usuario
     $usuario=User::create([
         'name' => $request->name,
         'email' => $request->email,

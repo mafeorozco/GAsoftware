@@ -27,8 +27,8 @@
     </header>
 
     <main>
-        <div class="flex flex-col md:flex-row">
-            @include('components.nav-admin')
+        <div class="flex h-screen flex-col md:flex-row">
+            @include('components.nav-profesor')
             <section class="w-full">
                 <div id="main" class="main-content z-10 mt-12 md:mt-2 pb-24 md:pb-5">
                     <div class="bg-gray-100 pt-3">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="p-5">
                         <div class="flex justify-end">
-                            <a href="{{ route ('unidad.index') }}"
+                            <a href="{{ route ('elegirMalla.create') }}"
                                 class="block no-underline inline-flex items-center bg-sky-400 border-0 py-1 px-3 focus:outline-none hover:bg-gray-500 text-white rounded text-base mt-4 md:mt-0"><i
                                     class="fa fa-plus-circle"></i>Agregar nueva malla
                             </a>
@@ -48,6 +48,7 @@
                             <table class="border-collapse table-auto w-full">
                                 <thead class="bg-slate-200 text-left">
                                     <tr>
+                                        <th class="p-2">Semana</th>
                                         <th class="p-2">Grado</th>
                                         <th class="p-2">Area</th>
                                         <th class="p-2">Unidad didactica</th>
@@ -55,25 +56,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($unidades as $unidad)
-                                    <tr class="border-b border-slate-100 dark:border-slate-700 p-4">
-                                        <td class="p-2">
-                                            {{ $unidad->unididacticas }}
-                                        </td>
-                                        <td class="p-2">
-                                            {{$unidad->grados}}
-                                        </td>
-                                        <td class="p-2">
-                                            {{$unidad->area}}
-                                        </td>
-                                        <td class="p-2">
-                                            <a class="block no-underline inline-flex items-center bg-sky-400 border-0 py-1 px-3 focus:outline-none hover:bg-gray-500 text-white rounded text-base mt-4 md:mt-0" href="{{ route('malla.show', ['malla' => $unidad->id]) }}">
-                                                Ver malla
-                                            </a>
-                                        </td>
-                                    </tr>
+                                    @foreach($mallas as $malla)
+                                        <tr class="border-b border-slate-100 dark:border-slate-700 p-4">
+                                            <td class="p-2">{{$malla['semana']}}</td>
+                                            <td class="p-2">{{$malla['grado']}}</td>
+                                            <td class="p-2">{{$malla['area']}}</td>
+                                            <td class="p-2">{{$malla['unidad']}}</td>
+                                            <td class="p-2">
+                                                <a class="block no-underline inline-flex items-center bg-sky-400 border-0 py-1 px-3 focus:outline-none hover:bg-gray-500 text-white rounded text-base mt-4 md:mt-0" href="{{ route('elegirMalla.show', $malla['id']) }}">
+                                                    Ver mas
+                                                </a>
+                                            </td>
+                                        </tr>
                                     @endforeach
-
                                 </tbody>
                             </table>
                         </div>

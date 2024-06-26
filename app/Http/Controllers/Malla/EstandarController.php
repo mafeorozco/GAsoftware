@@ -52,9 +52,10 @@ class EstandarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(malla $malla)
+    public function show(Request $request)
     {
-        //
+        $estandares=estandar::where('componente_id',$request->elemento)->get();
+        return $estandares;
     }
 
     /**

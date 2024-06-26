@@ -8,6 +8,7 @@ use App\Models\grado;
 use App\Models\unididactica;
 use App\Models\area;
 use Illuminate\Http\Request;
+use Mockery\Undefined;
 
 class UniDidacticaController extends Controller
 {
@@ -45,9 +46,11 @@ class UniDidacticaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(malla $malla)
+    public function show(Request $request)
     {
-        //
+        $unididactica=unididactica::where('grado_id',$request->grado)
+                                    ->where('area_id',$request->area)->get();
+        return $unididactica;
     }
 
     /**

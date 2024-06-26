@@ -26,7 +26,6 @@
 
 
 <main>
-
     <div class="flex flex-col md:flex-row">
         @include('components.nav-admin')
         <section class="w-full">
